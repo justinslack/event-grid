@@ -1,0 +1,110 @@
+/// Breakpoints
+
+// @example scss - Usage
+// @include breakpoint('40em');
+
+// Min-width
+
+@mixin breakpoint($size) {
+  @media only screen and (min-width: $size) {
+    @content;
+  }
+}
+
+// Max-width
+
+@mixin breakpoint-max($size) {
+  @media only screen and (max-width: $size) {
+    @content;
+  }
+}
+
+// REM fallbacks
+//Set up a variable for calculation
+
+$doc-font-size: 16;
+
+// the font-size mixin
+
+@mixin font-size($size) {
+  font-size: 0rem + $size / $doc-font-size;
+}
+
+// Mixin for rem conversion. Remove pixel line if not required (IE 9+)
+
+@mixin rem($property , $values , $important : false) {
+
+  $font-size  : 16px;// set your default font size
+  $px-values  : ();
+  $rem-values : ();
+
+  @each $value in $values{
+
+    @if index((0, 0px), $value) or $value == 0px {
+
+      $px-values  : join($px-values, 0);
+      $rem-values : join($rem-values, 0);
+
+    } @else if type-of($value) == number and not unitless($value) and (unit($value) == px) {
+
+      $new-rem-value : $value / $font-size;
+      $px-values     : join($px-values, round($value));
+      $rem-values    : join($rem-values, #{$new-rem-value}rem);
+
+    } @else if type-of($value) == number and not unitless($value) and (unit($value) == "%") {
+
+      $px-values  : join($px-values, #{$value});
+      $rem-values : join($rem-values, #{$value});
+
+    } @else if $value == auto {
+
+      $px-values  : join($px-values, auto);
+      $rem-values : join($rem-values, auto);
+
+    } @else {
+
+      $px-values  : join($px-values, round($value * $font-size));
+      $rem-values : join($rem-values, #{$value}rem);
+
+    }
+
+  }
+
+  @if $important != false {
+
+    $rem-values : $rem-values!important;
+
+    }
+
+    #{$property}: $rem-values;
+}
+
+// // how to use
+// .selector{
+//     @include rem(height , 40px);
+//     // optional !important parameter (try not to use)
+//     @include rem(height , 40px, true);
+// }
+
+// // output
+// .selector{
+//     height : 40px;
+//     // with !important declaration
+//     height : 40px!important;
+// }
+
+
+//Responsive video
+
+@mixin maintain-ratio($ratio: 1 1) {
+  @if length($ratio) < 2 or length($ratio) > 2 {
+  @warn "$ratio must be a list with two values.";
+  }
+
+  $width: 100%;
+  $height: percentage(nth($ratio, 2) / nth($ratio, 1));
+  width: $width;
+  height: 0;
+  padding-bottom: $height;
+  position: relative;
+}

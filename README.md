@@ -1,1 +1,1 @@
-# event-grid
+# Event grid

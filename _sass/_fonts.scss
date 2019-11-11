@@ -1,0 +1,81 @@
+@font-face {
+  font-family: 'Quicksand';
+  src: local('Quicksand Regular'), local('Quicksand-Regular'),
+      url('../assets/fonts/Quicksand-Regular.woff2') format('woff2'),
+      url('../assets/fonts/Quicksand-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: local('Quicksand Bold'), local('Quicksand-Bold'),
+      url('../assets/fonts/Quicksand-Bold.woff2') format('woff2'),
+      url('../assets/fonts/Quicksand-Bold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: local('Quicksand Medium'), local('Quicksand-Medium'),
+      url('../assets/fonts/Quicksand-Medium.woff2') format('woff2'),
+      url('../assets/fonts/Quicksand-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  src: local('Quicksand Light'), local('Quicksand-Light'),
+      url('../assets/fonts/Quicksand-Light.woff2') format('woff2'),
+      url('../assets/fonts/Quicksand-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+
+// --------------------------- Font-Scaling Algorithm ----------------------------
+// For the general strategy: https://www.codementor.io/ricardozea/100-responsive-typography-system-using-a-modular-scale-s5rhft58g
+// Explanation contained herein: https://www.madebymike.com.au/writing/precise-control-responsive-typography/
+
+// -------------
+// Min and max viewport sizes to apply the font scaling
+$min_width: 320;
+$max_width: 1400;
+// --------------
+
+// --------------
+// Range of font size to apply
+$min_font: 14;
+$max_font: 18;
+// --------------
+
+html {
+  font-size: #{$min_font}px;
+}
+
+// Media queries
+// -------------
+
+@media (min-width: #{$min_width}px) and (max-width: #{$max_width}px) {
+  html {
+    font-size: calc(
+      #{$min_font}px + (#{$max_font} - #{$min_font}) *
+        ((100vw - #{$min_width}px) / (#{$max_width} - #{$min_width}))
+    );
+  }
+}
+
+@media (min-width: #{$max_width}px) {
+  html {
+    font-size: #{$max_font}px;
+  }
+}
+
+h1, .h1 { font-size: 3rem; }
+h2, .h2 { font-size: 2.25rem; }
+h3, .h3 { font-size: 1.5rem; }
+h4, .h4 { font-size: 1.25rem; }
+h5, .h5 { font-size: 1rem; }
+h6, .h6 { font-size: .875rem; }

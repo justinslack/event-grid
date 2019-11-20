@@ -37,7 +37,7 @@ autoprefixer:
 
 sass:
   style: compressed
-  sourcemap: true
+  sourcemap: always
 
 collections:
   speaker:
